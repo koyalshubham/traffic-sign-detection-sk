@@ -1,94 +1,130 @@
-# Traffic Sign Detection
-This is the code for the paper
+<div align="center">
+  <img src="https://storage.googleapis.com/tf_model_garden/tf_model_garden_logo.png">
+</div>
 
-**[Evaluation of deep neural networks for traffic sign detection systems](https://doi.org/10.1016/j.neucom.2018.08.009)**
-<br>
-[Álvaro Arcos-García](https://scholar.google.com/citations?user=gjecl3cAAAAJ),
-[Juan Antonio Álvarez-García](https://scholar.google.com/citations?user=Qk79xk8AAAAJ),
-[Luis M. Soria-Morillo](https://scholar.google.com/citations?user=poBDpFkAAAAJ)
-<br>
+[![Python](https://img.shields.io/pypi/pyversions/tensorflow.svg?style=plastic)](https://badge.fury.io/py/tensorflow)
+[![tf-models-official PyPI](https://badge.fury.io/py/tf-models-official.svg)](https://badge.fury.io/py/tf-models-official)
 
-The paper addresses the problem of traffic sign detection analysing the state-of-the-art of several object-detection systems (Faster R-CNN, R-FCN, SSD, and YOLO V2) combined with various feature extractors (Resnet V1 50, Resnet V1 101, Inception V2, Inception Resnet V2, Mobilenet V1, and Darknet-19). We aim to explore the properties of these object-detection models which are modified and specifically adapted to the traffic sign detection problem domain by means of transfer learning. In particular, various publicly available object-detection models that were pre-trained on the Microsoft COCO dataset are fine-tuned on the [German Traffic Sign Detection Benchmark](http://benchmark.ini.rub.de/?section=gtsdb) dataset. The evaluation and comparison of these models include key metrics, such as the mean average precision (mAP), memory allocation, running time, number of floating point operations, number of parameters of the model, and the effect of traffic sign image sizes.
-![Detection example](detection_example.png?raw=True "Detection example")
 
-We provide:
-- Several [pretrained models](#pretrained-models).
-- [Experiment results](#results).
-- Test code to [run the model on new images](#running-on-new-images).
-- Instructions for [training your model](#training).
-- Instructions for [evaluating your model](#evaluation).
-- Scripts to create GTSDB TFRecords.
+# Welcome to the Model Garden for TensorFlow
 
-If you find this code useful in your research, please cite:
+The TensorFlow Model Garden is a repository with a number of different
+implementations of state-of-the-art (SOTA) models and modeling solutions for
+TensorFlow users. We aim to demonstrate the best practices for modeling so that
+TensorFlow users can take full advantage of TensorFlow for their research and
+product development.
 
-```
-"Evaluation of deep neural networks for traffic sign detection systems."
-Álvaro Arcos-García, Juan A. Álvarez-García, Luis M. Soria-Morillo. Neurocomputing 316 (2018) 332-344.
-```
-\[[link](https://doi.org/10.1016/j.neucom.2018.08.009)\]\[[bibtex](
-https://scholar.googleusercontent.com/citations?view_op=export_citations&user=gjecl3cAAAAJ&citsig=AMstHGQAAAAAW88AbhXW-l4i_qhFLdvy09TVYklB-yqs&hl=en)\]
+To improve the transparency and reproducibility of our models, training logs on
+[TensorBoard.dev](https://tensorboard.dev) are also provided for models to the
+extent possible though not all models are suitable.
 
-## Requirements
-This project is implemented in [Tensorflow](https://www.tensorflow.org/) and it is based on two repositories: [Tensorflow Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection) and [darkflow](https://github.com/thtrieu/darkflow).
+| Directory | Description |
+|-----------|-------------|
+| [official](official) | • A collection of example implementations for SOTA models using the latest TensorFlow 2's high-level APIs<br />• Officially maintained, supported, and kept up to date with the latest TensorFlow 2 APIs by TensorFlow<br />• Reasonably optimized for fast performance while still being easy to read<br /> For more details on the capabilities, check the guide on the [Model-garden](https://www.tensorflow.org/tfmodels)|
+| [research](research) | • A collection of research model implementations in TensorFlow 1 or 2 by researchers<br />• Maintained and supported by researchers |
+| [community](community) | • A curated list of the GitHub repositories with machine learning models and implementations powered by TensorFlow 2 |
+| [orbit](orbit) | • A flexible and lightweight library that users can easily use or fork when writing customized training loop code in TensorFlow 2.x. It seamlessly integrates with `tf.distribute` and supports running on different device types (CPU, GPU, and TPU). |
 
-## Pretrained models
-You can download TFRecords of the GTSDB dataset from [Google Drive](https://drive.google.com/open?id=1hKdjTsiFm_vdtZPdto0QJihThGFOPEkq). Unzip it to the `gtsdb_data` folder.
-You can download pre-trained models from Google Drive. Unzip them to the `models` folder.
-- [faster_rcnn_inception_resnet_v2_atrous](https://drive.google.com/open?id=12vLvA9wyJ9lRuDl9H9Tls0z5jsX0I0Da)
-- [faster_rcnn_inception_v2](https://drive.google.com/open?id=1LRCSWIkX_i6ijScMfaxSte_5a_x9tjWF)
-- [faster_rcnn_resnet_101](https://drive.google.com/open?id=15OxyPlqyOOlUdsbUmdrexKLpHy1l5tP9)
-- [faster_rcnn_resnet50](https://drive.google.com/open?id=1aEqlozB_CzhyJX_PO6SSiM-Yiv3fuO8V)
-- [rfcn_resnet101](https://drive.google.com/open?id=1eWCDZ5BxcEa7n_jZmWUr2kwHPBi5-SMG)
-- [ssd_inception_v2](https://drive.google.com/open?id=1TKMd-wIZJ1aUcOhWburm2b6WgYnP0ZK6)
-- [ssd_mobilenet_v1](https://drive.google.com/open?id=1U31RhUvE1Urr5Q92AJynMvl-oFBVRxxg)
-- [yolo_v2](https://drive.google.com/open?id=1wqWgHqcwtjXTXvKZgkzfbTvdpDAy8G85) (Updated 19/02/2019: Add missing file 'yolo_v2-50500.data-00000-of-00001')
+## Installation
 
-## Results
-### Overview
-Our findings show that Faster R-CNN Inception Resnet V2 obtains the best mAP, while R-FCN Resnet 101 strikes the best trade-off between accuracy and execution time. YOLO V2 and SSD Mobilenet merit a special mention, in that the former achieves competitive accuracy results and is the second fastest detector, while the latter, is the fastest and the lightest model in terms of memory consumption, making it an optimal choice for deployment in mobile and embedded devices.
+To install the current release of tensorflow-models, please follow any one of the methods described below.
 
-| model                            | mAP   | parameters | flops         | memory_mb    | total_exec_millis | accelerator_exec_millis | cpu_exec_millis |
-|----------------------------------|-------|------------|---------------|--------------|-------------------|-------------------------|-----------------|
-| Faster R-CNN Resnet 50           | 91.52 | 43337242   | 533575386662  | 5256.454615  | 104.0363553       | 75.93395395             | 28.10240132     |
-| Faster R-CNN Resnet 101          | 95.08 | 62381593   | 625779295782  | 6134.705805  | 123.2729175       | 90.33714433             | 32.9357732      |
-| Faster R-CNN Inception V2        | 90.62 | 12891249   | 120621363525  | 2175.206857  | 58.53338971       | 38.76813971             | 19.76525        |
-| Faster R-CNN Inception Resnet V2 | 95.77 | 59412281   | 1837544257834 | 18250.446008 | 442.2206796       | 366.1586796             | 76062           |
-| R-FCN Resnet 101                 | 95.15 | 64594585   | 269898731281  | 3509.75153   | 85.45207971       | 52.40321739             | 33.04886232     |
-| SSD Mobilenet                    | 61.64 | 5572809    | 2300721483    | 94.696119    | 15.14525          | 4.021267857             | 11.12398214     |
-| SSD Inception V2                 | 66.10 | 13474849   | 7594247747    | 284.512918   | 23.74428378       | 9.393405405             | 14.35087838     |
-| YOLO V2                          | 78.83 | 50588958   | 62780021160   | 1318.108256  | 21.4810122        | 18.13923171             | 3.341780488     |
+#### Method 1: Install the TensorFlow Model Garden pip package
 
-![Results plot](results_radar_plot.png?raw=True "Results plot")
+<details>
 
-### Image size comparison
+**tf-models-official** is the stable Model Garden package. Please check out the [releases](https://github.com/tensorflow/models/releases) to see what are available modules.
 
-| model                            | small | medium | large |
-|----------------------------------|-------|--------|-------|
-| Faster R-CNN Resnet 50           | 53.57 | 86.95  | 86.72 |
-| Faster R-CNN Resnet 101          | 70.89 | 94.17  | 88.87 |
-| Faster R-CNN Inception V2        | 56.72 | 81.02  | 88.53 |
-| Faster R-CNN Inception Resnet V2 | 68.60 | 86.62  | 82.10 |
-| R-FCN Resnet 101                 | 60.37 | 82.03  | 79.56 |
-| SSD Mobilenet                    | 22.13 | 55.32  | 82.06 |
-| SSD Inception V2                 | 26.85 | 64.71  | 78.76 |
-| YOLO V2                          | 42.93 | 78.99  | 75.67 |
+pip3 will install all models and dependencies automatically.
 
-![mAP vs image size](mAP_vs_image_size.png?raw=True "mAP vs image size")
-
-## Running on new images
-We provide a [Jupyter Notebook](Run_models_on_new_images.ipynb) with instructions to run our pre-trained models on new images.
-
-## Training
-Config files needed to train our models are included within each zip file that you can download from the [pre-trained models](#pretrained-models) section. Minimal changes were done to the base source code of tensorflow and darkflow so you should be able to reproduce our results using the last versions of the aforementioned repositories.
-For instance, to train a SDD Mobilenet model you can run the following command lines:
-```bash
-cd ~/tensorflow/models/research
-python3 object_detection/train.py --logtostderr --pipeline_config_path models/ssd_mobilenet_v1/ssd_mobilenet_v1_gtsdb3.config --train_dir models/ssd_mobilenet_v1/train/
+```shell
+pip3 install tf-models-official
 ```
 
-## Evaluation
-We provide a [Jupyter Notebook](Evaluation.ipynb) with instructions to evaluate the results obtained by our pre-trained models.
+Please check out our examples:
+  - [basic library import](https://github.com/tensorflow/models/blob/master/tensorflow_models/tensorflow_models_pypi.ipynb)
+  - [nlp model building](https://github.com/tensorflow/models/blob/master/docs/nlp/index.ipynb)
+to learn how to use a PIP package.
+
+Note that **tf-models-official** may not include the latest changes in the master branch of this
+github repo. To include latest changes, you may install **tf-models-nightly**,
+which is the nightly Model Garden package created daily automatically.
+
+```shell
+pip3 install tf-models-nightly
+```
+
+</details>
 
 
-## Acknowledgements
-The source code of this project is mainly based on [Tensorflow Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection) and [darkflow](https://github.com/thtrieu/darkflow).
+#### Method 2: Clone the source
+
+<details>
+
+1. Clone the GitHub repository:
+
+```shell
+git clone https://github.com/tensorflow/models.git
+```
+
+2. Add the top-level ***/models*** folder to the Python path.
+
+```shell
+export PYTHONPATH=$PYTHONPATH:/path/to/models
+```
+
+If you are using in a Windows environment, you may need to use the following command with PowerShell:
+```shell
+$env:PYTHONPATH += ":\path\to\models"
+```
+
+If you are using a Colab notebook, please set the Python path with os.environ.
+
+```python
+import os
+os.environ['PYTHONPATH'] += ":/path/to/models"
+```
+
+3. Install other dependencies
+
+```shell
+pip3 install --user -r models/official/requirements.txt
+```
+
+Finally, if you are using nlp packages, please also install
+**tensorflow-text-nightly**:
+
+```shell
+pip3 install tensorflow-text-nightly
+```
+
+</details>
+
+
+## Announcements
+
+Please check [this page](https://github.com/tensorflow/models/wiki/Announcements) for recent announcements.
+
+## Contributions
+
+[![help wanted:paper implementation](https://img.shields.io/github/issues/tensorflow/models/help%20wanted%3Apaper%20implementation)](https://github.com/tensorflow/models/labels/help%20wanted%3Apaper%20implementation)
+
+If you want to contribute, please review the [contribution guidelines](https://github.com/tensorflow/models/wiki/How-to-contribute).
+
+## License
+
+[Apache License 2.0](LICENSE)
+
+## Citing TensorFlow Model Garden
+
+If you use TensorFlow Model Garden in your research, please cite this repository.
+
+```
+@misc{tensorflowmodelgarden2020,
+  author = {Hongkun Yu, Chen Chen, Xianzhi Du, Yeqing Li, Abdullah Rashwan, Le Hou, Pengchong Jin, Fan Yang,
+            Frederick Liu, Jaeyoun Kim, and Jing Li},
+  title = {{TensorFlow Model Garden}},
+  howpublished = {\url{https://github.com/tensorflow/models}},
+  year = {2020}
+}
+```
